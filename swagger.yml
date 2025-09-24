@@ -1,0 +1,62 @@
+openapi: 3.0.3
+info:
+  title: "Safe-Jeonse API"
+  description: "전세사기 방지를 위한 부동산 위험 분석 API 명세서. 이 문서는 프론트엔드와 백엔드 개발의 기준이 되는 공식 계약서입니다."
+  version: "1.0.0"
+
+servers:
+  - url: "https://api.safe-jeonse.com/v1" # 실제 운영 서버 주소 (미정)
+    description: "운영 서버"
+  - url: "http://localhost:8080/api/v1" # 개발 서버 주소
+    description: "로컬 개발 서버"
+
+tags:
+  - name: "Property"
+    description: "부동산 위험 분석 관련 API"
+
+paths:
+  /properties/risk-report:
+    get:
+      tags:
+        - "Property"
+      summary: "부동산 종합 위험 분석 리포트 조회"
+      description: "주소와 보증금을 받아 종합 위험 분석 리포트를 제공합니다."
+      parameters:
+        - name: "address"
+          in: "query"
+          required: true
+          description: "분석을 원하는 주소"
+          schema:
+            type: "string"
+            example: "서울특별시 강남구 테헤란로 212"
+        - name: "deposit"
+          in: "query"
+          required: true
+          description: "계약하려는 전세 보증금 (원 단위)"
+          schema:
+            type: "integer"
+            format: "int64"
+            example: 500000000
+      responses:
+        '200':
+          description: "성공"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RiskReportResponse"
+        '400':
+          description: "잘못된 요청"
+
+components:
+  schemas:
+    RiskReportResponse:
+      type: "object"
+      properties:
+        overallRiskLevel:
+          type: "string"
+          description: "종합 위험도"
+          enum: ["안전", "주의", "위험"]
+        reportSummary:
+          type: "string"
+          description: "위험 분석에 대한 요약 메시지"
+          example: "매매가 대비 전세가율이 85%로 높은 편이며, 주의가 필요합니다."
