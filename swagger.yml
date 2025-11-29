@@ -34,6 +34,9 @@ paths:
                 landlord:
                   type: string
                   example: "홍길동"
+                marketPrice:
+                  type: number
+                  example: 650000000
                 registryFile:
                   type: string
                   format: binary
