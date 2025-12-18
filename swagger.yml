@@ -24,6 +24,7 @@ paths:
               required:
                 - address
                 - leaseDeposit
+                - isApartment
               properties:
                 address:
                   type: string
@@ -37,10 +38,20 @@ paths:
                 marketPrice:
                   type: number
                   example: 650000000
+                userMarketPrice:
+                  type: number
+                  example: 400000000
+                  description: "사용자가 입력한 매매 시세"
+                isApartment:
+                  type: string
+                  example: Y
+                  description: "매물이 아파트인지 여부"
                 registryFile:
                   type: string
                   format: binary
                   description: "등기부등본 PDF 파일 (선택 사항)"
+              
+                
 
       responses:
         '200':
